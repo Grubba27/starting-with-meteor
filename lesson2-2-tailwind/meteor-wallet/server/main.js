@@ -1,5 +1,4 @@
-import { Meteor } from 'meteor/meteor';
+import { Meteor } from "meteor/meteor";
 import "../imports/api/ContactsCollection";
-
-Meteor.startup(() => {
-});
+import "../imports/api/ContactsMethods";
+Meteor.startup(() => {});

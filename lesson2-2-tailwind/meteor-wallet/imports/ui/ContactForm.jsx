@@ -1,23 +1,33 @@
 import React from "react";
-import {ContactsCollection} from "../api/ContactsCollection";
+import { ContactsCollection } from "../api/ContactsCollection";
+import { Meteor } from "meteor/meteor";
 
 export const ContactForm = () => {
   const [name, setName] = React.useState(""); // Formik
   const [email, setEmail] = React.useState("");
   const [imageUrl, setImageUrl] = React.useState("");
 
-  const saveContact = () => {
-    ContactsCollection.insert({ name, email, imageUrl });
+  const saveContact = async () => {
+    try {
+      await Meteor.callAsync("contacts.insert", { name, email, imageUrl });
+    } catch (e) {
+      console.log(e);
+      alert(e.message);
+      return;
+    }
     setName("");
     setEmail("");
     setImageUrl("");
-  }
+  };
 
   return (
     <form className="mt-6">
       <div className="grid grid-cols-6 gap-6">
         <div className="col-span-6 sm:col-span-6 lg:col-span-2">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700"
+          >
             Name
           </label>
           <input
@@ -30,7 +40,10 @@ export const ContactForm = () => {
         </div>
 
         <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700"
+          >
             Email
           </label>
           <input
@@ -43,7 +56,10 @@ export const ContactForm = () => {
         </div>
 
         <div className="col-span-6 sm:col-span-3 lg:col-span-2">
-          <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="imageUrl"
+            className="block text-sm font-medium text-gray-700"
+          >
             Image URL
           </label>
           <input
@@ -65,5 +81,5 @@ export const ContactForm = () => {
         </button>
       </div>
     </form>
-  )
-}
+  );
+};
